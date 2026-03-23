@@ -3,12 +3,27 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 
+type Category = "all" | "reminders" | "love";
+
 const PRESETS = [
-  { emoji: "🪥", label: "Brush your teeth" },
-  { emoji: "🧼", label: "Wash your hands before dinner" },
-  { emoji: "👕", label: "Put away your clothes" },
-  { emoji: "🍽️", label: "Put away the dishes" },
-  { emoji: "✨", label: "Think first, be kind, have fun" },
+  { emoji: "🪥", label: "Brush your teeth", category: "reminders" as const },
+  { emoji: "🧼", label: "Wash your hands before dinner", category: "reminders" as const },
+  { emoji: "👕", label: "Put away your clothes", category: "reminders" as const },
+  { emoji: "🍽️", label: "Put away the dishes", category: "reminders" as const },
+  { emoji: "✨", label: "Think first, be kind, have fun", category: "reminders" as const },
+  { emoji: "📖", label: "Time to read for 30 minutes", category: "reminders" as const },
+  { emoji: "🚗", label: "Can you help me empty the car?", category: "reminders" as const },
+  { emoji: "🦁", label: "Leo, mom loves you so much", category: "love" as const },
+  { emoji: "🌟", label: "Felix, keep being you", category: "love" as const },
+  { emoji: "💛", label: "Jake, thanks for being my partner", category: "love" as const },
+  { emoji: "🤗", label: "I love you thiiiiiiisssss much", category: "love" as const },
+  { emoji: "🏠", label: "I love our family", category: "love" as const },
+];
+
+const TABS: { label: string; value: Category }[] = [
+  { label: "All", value: "all" },
+  { label: "Reminders", value: "reminders" },
+  { label: "Love", value: "love" },
 ];
 
 const PHOTOS = [
@@ -21,11 +36,16 @@ const PHOTOS = [
 ];
 
 export default function Home() {
+  const [activeTab, setActiveTab] = useState<Category>("all");
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [customText, setCustomText] = useState("");
   const [error, setError] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const filteredPresets = activeTab === "all"
+    ? PRESETS
+    : PRESETS.filter((p) => p.category === activeTab);
 
   async function speak(text: string, id: string) {
     // Stop any currently playing audio
@@ -116,13 +136,30 @@ export default function Home() {
         </p>
       </header>
 
-      {/* Preset Buttons */}
+      {/* Tabs */}
       <section className="w-full max-w-2xl mx-auto px-6 pb-8">
-        <p className="text-[var(--warm-gray)] text-xs tracking-[0.3em] uppercase text-center mb-6">
-          Quick Reminders
-        </p>
+        <div className="flex justify-center gap-2 mb-6">
+          {TABS.map((tab) => (
+            <button
+              key={tab.value}
+              onClick={() => setActiveTab(tab.value)}
+              className={`
+                px-5 py-2 rounded-full text-xs font-medium tracking-[0.15em] uppercase
+                transition-all duration-200 cursor-pointer
+                ${activeTab === tab.value
+                  ? "bg-[var(--gold)] text-white shadow-sm"
+                  : "bg-white border border-[var(--cream)] text-[var(--warm-gray)] hover:border-[var(--gold-light)]"
+                }
+              `}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Preset Buttons */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {PRESETS.map((preset) => {
+          {filteredPresets.map((preset) => {
             const id = `preset-${preset.label}`;
             const isLoading = loadingId === id;
             const isPlaying = playingId === id;
