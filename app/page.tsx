@@ -16,7 +16,6 @@ const PRESETS = [
   { emoji: "🦁", label: "Leo, mom loves you so much", category: "love" as const },
   { emoji: "🌟", label: "Felix, keep being you", category: "love" as const },
   { emoji: "💛", label: "Jake, thanks for being my partner", category: "love" as const },
-  { emoji: "🤗", label: "I love you thiiiiiiisssss much", category: "love" as const },
   { emoji: "🏠", label: "I love our family", category: "love" as const },
 ];
 
