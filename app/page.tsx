@@ -114,7 +114,7 @@ export default function Home() {
           className="text-5xl md:text-6xl font-serif font-semibold text-[var(--foreground)] mb-3"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
-          <span className="italic font-normal">Sarah&apos;s</span> Clone
+          <span className="italic font-normal">Sarah&apos;s</span> Helper
         </h1>
         <p className="text-[var(--warm-gray)] text-sm tracking-wide mb-8">
           Mom&apos;s voice, one tap away
