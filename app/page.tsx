@@ -2,6 +2,8 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
+import TopNav, { type TopTab } from "./components/TopNav";
+import MomsNotes from "./components/MomsNotes";
 
 type Category = "all" | "reminders" | "love";
 
@@ -35,6 +37,7 @@ const PHOTOS = [
 ];
 
 export default function Home() {
+  const [topTab, setTopTab] = useState<TopTab>("reminders");
   const [activeTab, setActiveTab] = useState<Category>("all");
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [playingId, setPlayingId] = useState<string | null>(null);
@@ -135,6 +138,13 @@ export default function Home() {
         </p>
       </header>
 
+      {/* Top-level navigation */}
+      <TopNav activeTab={topTab} onTabChange={setTopTab} />
+
+      {topTab === "notes" ? (
+        <MomsNotes />
+      ) : (
+      <>
       {/* Tabs */}
       <section className="w-full max-w-2xl mx-auto px-6 pb-8">
         <div className="flex justify-center gap-2 mb-6">
@@ -300,6 +310,8 @@ export default function Home() {
           ))}
         </div>
       </section>
+      </>
+      )}
 
       {/* Footer */}
       <footer className="w-full py-8 text-center">

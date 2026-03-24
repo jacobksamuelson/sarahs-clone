@@ -62,3 +62,13 @@ body {
 .animate-gentle-pulse {
   animation: gentle-pulse 2s ease-in-out infinite;
 }
+
+/* Recording mic pulse */
+@keyframes recording-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 144, 138, 0.5); }
+  50% { box-shadow: 0 0 0 16px rgba(201, 144, 138, 0); }
+}
+
+.animate-recording-pulse {
+  animation: recording-pulse 1.5s ease-in-out infinite;
+}
